@@ -3,7 +3,7 @@
   "name": "sr",
   "displayName": "Novel Navigator",
   "description": "在活动栏中浏览小说文件夹，支持导入文本、章节预览与快捷键导航。",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.80.0"
   },
