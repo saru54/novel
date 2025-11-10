@@ -1,0 +1,204 @@
+{
+  "publisher": "sr",
+  "name": "sr",
+  "displayName": "Novel Navigator",
+  "description": "在活动栏中浏览小说文件夹，支持导入文本、章节预览与快捷键导航。",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "novelNavigator.createFolder",
+        "title": "新建小说文件夹"
+      },
+      {
+        "command": "novelNavigator.importTextFiles",
+        "title": "导入小说文本"
+      },
+      {
+        "command": "novelNavigator.openFile",
+        "title": "打开小说文本"
+      },
+      {
+        "command": "novelNavigator.nextLine",
+        "title": "下一句"
+      },
+      {
+        "command": "novelNavigator.previousLine",
+        "title": "上一句"
+      },
+      {
+        "command": "novelNavigator.nextChapter",
+        "title": "下一章"
+      },
+      {
+        "command": "novelNavigator.previousChapter",
+        "title": "上一章"
+      },
+      {
+        "command": "novelNavigator.toggleExtensionEnabled",
+        "title": "显示/隐藏小说导航"
+      },
+      {
+        "command": "novelNavigator.toggleDisplayMode",
+        "title": "切换小说显示位置"
+      },
+      {
+        "command": "novelNavigator.jumpToPosition",
+        "title": "跳转到指定章节/行"
+      },
+      {
+        "command": "novelNavigator.deleteFolder",
+        "title": "删除小说文件夹"
+      },
+      {
+        "command": "novelNavigator.deleteFile",
+        "title": "删除小说文本"
+      },
+      {
+        "command": "novelNavigator.toggleShortcuts",
+        "title": "启用/停用小说快捷键"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "novelNavigator",
+          "title": "小说导航",
+          "icon": "media/book.svg",
+          "when": "novelNavigator.extensionEnabled"
+        }
+      ],
+      "panel": [
+        {
+          "id": "novelNavigatorPanel",
+          "title": "小说章节",
+          "icon": "media/book.svg",
+          "when": "novelNavigator.extensionEnabled && novelNavigator.displayMode == 'panel'"
+        }
+      ]
+    },
+    "views": {
+      "novelNavigator": [
+        {
+          "id": "novelNavigator.library",
+          "name": "小说资源库",
+          "icon": "media/book.svg",
+          "when": "novelNavigator.extensionEnabled"
+        }
+      ],
+      "novelNavigatorPanel": [
+        {
+          "id": "novelNavigator.chapterPanel",
+          "name": "小说章节",
+          "icon": "media/book.svg",
+          "type": "webview",
+          "when": "novelNavigator.extensionEnabled && novelNavigator.displayMode == 'panel'"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "novelNavigator.createFolder",
+          "when": "novelNavigator.extensionEnabled && view == novelNavigator.library",
+          "group": "navigation@1"
+        },
+        {
+          "command": "novelNavigator.importTextFiles",
+          "when": "novelNavigator.extensionEnabled && view == novelNavigator.library",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "novelNavigator.importTextFiles",
+          "when": "novelNavigator.extensionEnabled && view == novelNavigator.library && viewItem == novelFolder",
+          "group": "inline"
+        },
+        {
+          "command": "novelNavigator.deleteFolder",
+          "when": "novelNavigator.extensionEnabled && view == novelNavigator.library && viewItem == novelFolder",
+          "group": "navigation@9"
+        },
+        {
+          "command": "novelNavigator.deleteFile",
+          "when": "novelNavigator.extensionEnabled && view == novelNavigator.library && viewItem == novelFile",
+          "group": "navigation@9"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "novelNavigator.nextLine",
+        "key": "right",
+        "mac": "right",
+        "when": "novelNavigator.extensionEnabled && novelNavigator.shortcutsEnabled && novelNavigator.hasSelection"
+      },
+      {
+        "command": "novelNavigator.previousLine",
+        "key": "left",
+        "mac": "left",
+        "when": "novelNavigator.extensionEnabled && novelNavigator.shortcutsEnabled && novelNavigator.hasSelection"
+      },
+      {
+        "command": "novelNavigator.nextChapter",
+        "key": "ctrl+right",
+        "mac": "ctrl+right",
+        "when": "novelNavigator.extensionEnabled && novelNavigator.shortcutsEnabled && novelNavigator.hasSelection"
+      },
+      {
+        "command": "novelNavigator.previousChapter",
+        "key": "ctrl+left",
+        "mac": "ctrl+left",
+        "when": "novelNavigator.extensionEnabled && novelNavigator.shortcutsEnabled && novelNavigator.hasSelection"
+      },
+      {
+        "command": "novelNavigator.toggleDisplayMode",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m",
+        "when": "novelNavigator.extensionEnabled"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.25.10",
+    "eslint": "^9.36.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "chardet": "^2.1.1",
+    "iconv-lite": "^0.7.0"
+  }
+}
