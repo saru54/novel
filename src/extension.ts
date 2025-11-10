@@ -75,7 +75,7 @@ export function activate(context: vscode.ExtensionContext): void {
 				return;
 			}
 			const folderName = await vscode.window.showInputBox({
-				title: '新建小说文件夹',
+				title: '新建文件夹',
 				prompt: '请输入文件夹名称',
 				ignoreFocusOut: true,
 			});
@@ -180,7 +180,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 		vscode.commands.registerCommand('novelNavigator.toggleDisplayMode', () => {
 			if (!extensionEnabled) {
-				vscode.window.showInformationMessage('请先通过状态栏的导航按钮重新启用小说导航。');
+				vscode.window.showInformationMessage('请先通过状态栏的导航按钮重新启用SR-Novel。');
 				return;
 			}
 			setDisplayMode(displayMode === 'statusBar' ? 'panel' : 'statusBar');
@@ -191,7 +191,7 @@ export function activate(context: vscode.ExtensionContext): void {
 				return;
 			}
 			if (!navigation) {
-				vscode.window.showInformationMessage('小说导航尚未初始化。');
+				vscode.window.showInformationMessage('SR-Novel尚未初始化。');
 				return;
 			}
 			await navigation.promptJumpToChapterLine();
@@ -253,7 +253,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 		vscode.commands.registerCommand('novelNavigator.toggleShortcuts', () => {
 			if (!extensionEnabled) {
-				vscode.window.showInformationMessage('小说导航已隐藏，无法切换快捷键。');
+				vscode.window.showInformationMessage('SR-Novel已隐藏，无法切换快捷键。');
 				return;
 			}
 			setShortcutsPreference(!cachedShortcutsState);
@@ -394,7 +394,7 @@ function ensureExtensionActive(): boolean {
 	if (extensionEnabled) {
 		return true;
 	}
-	vscode.window.showInformationMessage('小说导航已隐藏，请点击状态栏中的导航按钮重新启用。');
+	vscode.window.showInformationMessage('SR-Novel已隐藏，请点击状态栏中的导航按钮重新启用。');
 	return false;
 }
 

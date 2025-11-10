@@ -29,7 +29,7 @@ export class StatusBarController implements vscode.Disposable {
     this.lineItem.tooltip = '选择小说文本后将在此显示当前句子';
 
     this.toggleItem.command = 'novelNavigator.toggleShortcuts';
-    this.toggleItem.tooltip = '切换行快捷键 (Left/Right, Ctrl+Left/Right) 切换视图位置(Ctrl + Alt + M)';
+    this.toggleItem.tooltip = '切换行快捷键 (Left/Right) 切换章节快捷键 (Ctrl+Left/Right) 切换视图位置(Ctrl + Alt + M)';
     this.updateToggleLabel();
 
     this.visibilityItem.command = 'novelNavigator.toggleExtensionEnabled';
