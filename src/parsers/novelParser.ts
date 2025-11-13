@@ -72,9 +72,12 @@ export class NovelParser {
         lines,
       });
     } else {
-      // ensure last chapter has copy of buffer (already committed)
-      if (currentChapter && currentChapter.lines.length === 0) {
-        currentChapter.lines = buffer.slice();
+      // If there are lines before the first chapter, add them to the first chapter
+      const firstChapter = chapters[0];
+      if (firstChapter.startLine > 0) {
+        const prologueLines = lines.slice(0, firstChapter.startLine);
+        firstChapter.lines = [...prologueLines, ...firstChapter.lines];
+        firstChapter.startLine = 0;
       }
     }
 
